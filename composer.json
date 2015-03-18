@@ -1,0 +1,15 @@
+{
+    "name": "openpp/push-notificationhubs-rest-php",
+    "type": "library",
+    "description": "Microsoft Azure Notification Hub library for PHP",
+    "keywords": ["push", "notificationhub", "openpp", "azure"],
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "webware,Inc."
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Openpp\\NotificationHubRest\\": "src" }
+    }
+}
