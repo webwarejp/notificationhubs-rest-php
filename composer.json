@@ -1,5 +1,5 @@
 {
-    "name": "openpp/push-notificationhubs-rest-php",
+    "name": "openpp/notificationhubs-rest-php",
     "type": "library",
     "description": "Microsoft Azure Notification Hub library for PHP",
     "keywords": ["push", "notificationhub", "openpp", "azure"],
