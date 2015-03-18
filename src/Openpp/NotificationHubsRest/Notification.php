@@ -1,6 +1,6 @@
 <?php
 
-namespace Openpp\NotificationHubRest;
+namespace Openpp\NotificationHubsRest;
 
 class Notification
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Openpp\NortificationHubsRest;
+namespace Openpp\NotificationHubsRest;
 
 class NotificationHub
 {
@@ -43,17 +43,17 @@ class NotificationHub
         $toSign = $targetUri . "\n" . $expires;
         $signature = rawurlencode(base64_encode(hash_hmac('sha256', $toSign, $this->sasKeyValue, TRUE)));
         $token = "SharedAccessSignature sr=" . $targetUri . "&sig=" . $signature . "&se=" . $expires . "&skn=" . $this->sasKeyName;
+
         return $token;
     }
 
     public function broadcastNotification(Notification $notification)
     {
-        $this->sendNotification($notification, '');
+        $this->sendNotification($notification, "");
     }
 
-    public function sendNotification(Notification $notification, $tagsOrTagExpression = '')
+    public function sendNotification(Notification $notification, $tagsOrTagExpression = "")
     {
-        echo $tagsOrTagExpression . "<p>";
         if (is_array($tagsOrTagExpression)) {
             $tagExpression = implode(" || ", $tagsOrTagExpression);
         } else {
@@ -61,8 +61,7 @@ class NotificationHub
         }
         // build uri
         $uri = $this->endpoint . $this->hubPath . "/messages" . NotificationHub::API_VERSION;
-        echo $uri . "<p>";
-        $ch = curl_init($uri);
+
         if (in_array($notification->format, [
             "template",
             "apple",
@@ -87,6 +86,11 @@ class NotificationHub
         if (is_array($notification->headers)) {
             $headers = array_merge($headers, $notification->headers);
         }
+    }
+
+    private function callApi($uri, $headers)
+    {
+        $ch = curl_init($uri);
 
         curl_setopt_array($ch, array(
             CURLOPT_POST => TRUE,
@@ -95,8 +99,10 @@ class NotificationHub
             CURLOPT_HTTPHEADER => $headers,
             CURLOPT_POSTFIELDS => $notification->payload
         ));
+
         // Send the request
         $response = curl_exec($ch);
+
         // Check for errors
         if ($response === FALSE) {
             throw new Exception(curl_error($ch));
@@ -106,6 +112,8 @@ class NotificationHub
         if ($info['http_code'] != 201) {
             throw new Exception('Error sending notificaiton: ' . $info['http_code'] . ' msg: ' . $response);
         }
+
+        return $response;
     }
 }
 ?>
