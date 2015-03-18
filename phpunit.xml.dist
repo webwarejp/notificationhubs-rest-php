@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="tests/bootstrap.php" colors="true">
+    <testsuites>
+        <testsuite name="NotificationHub Library Test Suite">
+            <directory>tests/Openpp/NotificationHubsRest/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/Openpp/NotificationHubsRest/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
