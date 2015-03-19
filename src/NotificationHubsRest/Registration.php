@@ -27,14 +27,17 @@ class Registration
     {
         $this->type = $type;
 
-        $this->dom = new \DomDocument('1.0', 'UTF-8');
+        $this->dom = new \DomDocument('1.0', 'utf-8');
+
+        $entryElement = $this->dom->createElement('entry');
+        $entryElement->setAttribute('xmlns', 'http://www.w3.org/2005/Atom');
+
+        $contentElement = $this->dom->createElement('content');
+        $contentElement->setAttribute('type', 'application/xml');
+
         $this->content = $this->dom
-            ->appendChild(
-                $this->dom->createElement('entry')->setAttribute('xmlns', 'http://www.w3.org/2005/Atom')
-            )
-            ->appendChild(
-                $this->dom->createElement('content')->setAttribute('type', 'application/xml')
-            )
+            ->appendChild($entryElement)
+            ->appendChild($contentElement)
         ;
     }
 
@@ -163,7 +166,10 @@ class Registration
         $desc->appendChild($this->dom->createElement($deviceIdTag, $this->token));
 
         if ($this->template) {
-            $desc->appendChild($this->dom->createElement('BodyTemplate', $this->template));
+            $cdata = $this->dom->createCDATASection($this->template);
+            $bodyTemplateElement = $this->dom->createElement('BodyTemplate');
+            $bodyTemplateElement->appendChild($cdata);
+            $desc->appendChild($bodyTemplateElement);
 
             if (self::TYPE_APPLE == $this->type && $this->expiry) {
                 $desc->appendChild($this->dom->createElement('Expiry', $this->expiry));
