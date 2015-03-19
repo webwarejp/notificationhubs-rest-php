@@ -3,13 +3,13 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="NotificationHub Library Test Suite">
-            <directory>tests/Openpp/NotificationHubsRest/</directory>
+            <directory>tests/NotificationHubsRest/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">src/Openpp/NotificationHubsRest/</directory>
+            <directory suffix=".php">src/NotificationHubsRest/</directory>
         </whitelist>
     </filter>
 </phpunit>

@@ -10,6 +10,6 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Openpp\\NotificationHubsRest\\": "src" }
+        "psr-4": { "Openpp\\NotificationHubsRest\\": "src/NotificationHubsRest" }
     }
 }
