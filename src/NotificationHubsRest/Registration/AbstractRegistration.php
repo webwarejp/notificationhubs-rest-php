@@ -2,8 +2,6 @@
 
 namespace Openpp\NotificationHubsRest\Registration;
 
-use Openpp\NotificationHubsRest\NotificationHub\NotificationHub;
-
 /**
  * 
  * @author shiroko@webware.co.jp
@@ -292,6 +290,7 @@ abstract class AbstractRegistration implements RegistrationInterface
             throw new \RuntimeException("Could not find '" . $descriptionTag . "' tag in the response: " . $response);
         }
 
+        $result = array();
         foreach ($description->childNodes as $child) {
             if ($child->nodeName != '#text') {
                 $result[$child->nodeName] = $child->nodeValue;

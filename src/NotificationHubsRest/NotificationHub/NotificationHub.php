@@ -229,8 +229,7 @@ class NotificationHub
 
         if (self::METHOD_PUT === $method) {
             $options[CURLOPT_POST] = TRUE;
-        }
-        else if (self::METHOD_GET != $method) {
+        } else if (self::METHOD_GET != $method) {
             $options[CURLOPT_CUSTOMREQUEST] = $method;
         }
 

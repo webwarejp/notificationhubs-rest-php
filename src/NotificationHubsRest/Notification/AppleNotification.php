@@ -47,7 +47,7 @@ class AppleNotification extends AbstractNotification
      */
     public function getPayload()
     {
-        if ($this->options) {
+        if (!empty($this->options)) {
             $payload = array_intersect_key($this->options, array_fill_keys($this->supportedOptions, 0));
         } else {
             $payload = array();

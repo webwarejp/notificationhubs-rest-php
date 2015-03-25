@@ -30,7 +30,7 @@ interface ApiContentInterface
      * @param string $endpoint
      * @param string $hubPath
      *
-     * @return $string
+     * @return string
      */
     public function buildUri($endpoint, $hubPath);
 
