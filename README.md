@@ -1,5 +1,7 @@
 # Notification Hubs REST wrapper for PHP
 
+[![Build Status](https://scrutinizer-ci.com/g/webwarejp/notificationhubs-rest-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/webwarejp/notificationhubs-rest-php/)
+
 This is a implementation of a REST wrapper using the [REST APIs of Notification Hubs](http://msdn.microsoft.com/en-us/library/dn495827.aspx) from a PHP back-end.
 
 ## How to use the code above
