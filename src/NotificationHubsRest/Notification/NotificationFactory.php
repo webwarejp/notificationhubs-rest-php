@@ -12,8 +12,8 @@ class NotificationFactory
     /**
      * Creates the Notification class according to the format.
      *
-     * @param string       $format               "gcm", "apple"
-     * @param string|array $alert                "data" for gcm, "alert" for apple
+     * @param string       $format               "gcm", "apple", "template"
+     * @param string|array $alert                "data" for gcm, "alert" for apple, payload for template
      * @param array        $options              message options
      * @param string|array $tagsOrTagExpression  a tag or tags array or tag expression
      *

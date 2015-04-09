@@ -78,15 +78,7 @@ XML;
 
     protected function getTemplate()
     {
-        $template = <<<TEMPLATE
-<toast>
-  <visual>
-    <binding template=\"ToastText01\">
-      <text id=\"1\">$(News_English)</text>
-    </binding>
-  </visual>
-</toast>
-TEMPLATE;
+        $template = '{“data”:{“message”:”$(message)”}}';
 
         return $template;
     }

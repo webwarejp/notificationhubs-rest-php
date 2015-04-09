@@ -5,6 +5,7 @@ namespace Openpp\NotificationHubsRest\Notification\Tests;
 use Openpp\NotificationHubsRest\Notification\NotificationFactory;
 use Openpp\NotificationHubsRest\Notification\GcmNotification;
 use Openpp\NotificationHubsRest\Notification\AppleNotification;
+use Openpp\NotificationHubsRest\Notification\TemplateNotification;
 
 /**
  *
@@ -31,6 +32,12 @@ class NotificationBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $notification = $this->factory->createNotification("apple", 'Hello!');
         $this->assertTrue($notification instanceof AppleNotification);
+    }
+
+    public function testCreateTemplateRegistration()
+    {
+        $notification = $this->factory->createNotification("template", array('message' => 'Hello!'));
+        $this->assertTrue($notification instanceof TemplateNotification);
     }
 
     /**
