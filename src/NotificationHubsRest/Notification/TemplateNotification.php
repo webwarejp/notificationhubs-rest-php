@@ -32,7 +32,7 @@ class TemplateNotification extends AbstractNotification
     {
         if (is_array($this->alert)) {
             $payload = json_encode($this->alert);
-        } else if (is_scalar($this->alert)) {
+        } else if (is_string($this->alert)) {
             $payload = $this->alert;
         } else {
             throw new \RuntimeException('Invalid alert.');
