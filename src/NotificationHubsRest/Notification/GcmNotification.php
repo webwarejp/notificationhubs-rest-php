@@ -47,7 +47,7 @@ class GcmNotification extends AbstractNotification
         if (is_array($this->alert)) {
             $payload += array('data' => $this->alert);
         } else if (is_scalar($this->alert)) {
-            $payload += array('data' => array('msg' => $this->alert));
+            $payload += array('data' => array('message' => $this->alert));
         } else {
             throw new \RuntimeException('Invalid alert.');
         }
