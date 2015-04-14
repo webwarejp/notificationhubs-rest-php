@@ -227,7 +227,7 @@ class NotificationHub
             CURLOPT_HTTPHEADER => $headers,
         );
 
-        if (self::METHOD_PUT === $method) {
+        if (self::METHOD_POST === $method) {
             $options[CURLOPT_POST] = TRUE;
         } else if (self::METHOD_GET != $method) {
             $options[CURLOPT_CUSTOMREQUEST] = $method;
