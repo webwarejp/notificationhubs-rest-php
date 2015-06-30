@@ -285,16 +285,17 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
     {
         $this->mock->expects($this->once())
         ->method('request')
-        ->with($this->equalTo('GET'),
+        ->with($this->equalTo('POST'),
                 $this->equalTo('https://buildhub-ns.servicebus.windows.net/myHub/registrationIDs/?api-version=2013-08'),
                 $this->callback(function ($headers) {
                     $content = preg_grep('#^Content-Type: application/atom\+xml;type=entry;charset=utf-8$#', $headers);
                     $version = preg_grep('#^x-ms-version: 2013-08$#', $headers);
                     $auth = preg_grep('#^Authorization#', $headers);
-                    if (!$content || !$version || !$auth) {
+                    $contentLength = preg_grep('#^Content-length#', $headers);
+                    if (!$content || !$version || !$auth || !$contentLength) {
                         return false;
                     }
-                    if (array_diff($headers, $content + $auth + $version)) {
+                    if (array_diff($headers, $content + $auth + $version + $contentLength)) {
                         return false;
                     }
                     return true;
@@ -303,7 +304,7 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(true)
         )
         ->will($this->returnValue('Content-Type: application/atom+xml;type=entry;charset=utf-8
-Content-Location: https://buildhub-ns.servicebus.windows.net/myHub/registrations/2372532420827572008-85883004107185159-4
+Content-Location: https://buildhub-ns.servicebus.windows.net/myHub/registrationIDs/2372532420827572008-85883004107185159-4?api-version=2013-08
 ETag: W/"3"'));
 
         $result = $this->mock->createRegistrationId();
