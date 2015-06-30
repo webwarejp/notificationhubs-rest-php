@@ -70,7 +70,7 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
                         }
                         return true;
                     }),
-                    $this->equalTo('{"data":{"msg":"Hello!"}}'),
+                    $this->equalTo('{"data":{"message":"Hello!"}}'),
                     $this->equalTo(false)
               )
               ->will($this->returnValue(null));

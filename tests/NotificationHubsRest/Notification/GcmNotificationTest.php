@@ -84,7 +84,7 @@ class GcmNotificationTest extends \PHPUnit_Framework_TestCase
         $expected = <<<JSON
 {
   "data" : {
-    "msg" : "Hello!"
+    "message" : "Hello!"
   }
 }
 JSON;
@@ -110,7 +110,7 @@ JSON;
   "restricted_package_name" : "abc",
   "dry_run" : true,
   "data" : {
-    "msg" : "Hello!"
+    "message" : "Hello!"
   }
 }
 JSON;
@@ -126,7 +126,7 @@ JSON;
         ));
         $payload = $notification->getPayload();
 
-        $this->assertJsonStringEqualsJsonString('{"collapse_key" : "aaa", "data" :  {"msg" : "Hello!"}}', $payload);
+        $this->assertJsonStringEqualsJsonString('{"collapse_key" : "aaa", "data" :  {"message" : "Hello!"}}', $payload);
     }
 
     public function testGetPayloadWithNoOptionsAndProperies()
