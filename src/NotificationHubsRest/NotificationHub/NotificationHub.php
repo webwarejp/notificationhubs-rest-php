@@ -177,6 +177,31 @@ class NotificationHub
     }
 
     /**
+     * Read Registration
+     *
+     * @param RegistrationInterface $registration
+     *
+     * @throws \RuntimeException
+     *
+     * @return mixed
+     */
+    public function readRegistration(RegistrationInterface $registration)
+    {
+        if (!$registration->getRegistrationId()) {
+            throw new \RuntimeException('Registration ID is mandatory.');
+        }
+
+        $uri = $registration->buildUri($this->endpoint, $this->hubPath) . self::API_VERSION;
+
+        $token = $this->generateSasToken($uri);
+        $headers = array_merge(array('Authorization: ' . $token), $registration->getHeaders());
+
+        $respone = $this->request(self::METHOD_GET, $uri, $headers);
+
+        return $registration->scrapeResponse($response);
+    }
+
+    /**
      * Create Registration ID
      *
      * @return string Registration ID
