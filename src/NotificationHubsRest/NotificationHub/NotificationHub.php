@@ -185,15 +185,16 @@ class NotificationHub
     {
         $registration = new GcmRegistration();
         // build uri
-        $uri = $this->endpoint . $this->hubPath . "/registrationIDs/" . self::API_VERSION;
+        $uri = $this->endpoint . $this->hubPath . "/registrationIDs/";
 
         $token = $this->generateSasToken($uri);
         $headers = array_merge(array('Authorization: ' . $token), $registration->getHeaders());
+        $headers = array_merge(array('Content-length: 0'), $headers);
 
-        $response = $this->request(self::METHOD_GET, $uri, $headers, null, true);
+        $response = $this->request(self::METHOD_POST, $uri . self::API_VERSION, $headers, null, true);
 
         preg_match(
-            '#' . $registration->buildUri($this->endpoint, $this->hubPath) . '(\S+)#',
+            '#' . $uri . '([^?]+)' . preg_quote(self::API_VERSION) .'#',
             $response,
             $matches
         );
