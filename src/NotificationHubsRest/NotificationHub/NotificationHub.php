@@ -196,7 +196,7 @@ class NotificationHub
         $token = $this->generateSasToken($uri);
         $headers = array_merge(array('Authorization: ' . $token), $registration->getHeaders());
 
-        $respone = $this->request(self::METHOD_GET, $uri, $headers);
+        $response = $this->request(self::METHOD_GET, $uri, $headers);
 
         return $registration->scrapeResponse($response);
     }
@@ -219,7 +219,7 @@ class NotificationHub
         $response = $this->request(self::METHOD_POST, $uri . self::API_VERSION, $headers, null, true);
 
         preg_match(
-            '#' . $uri . '([^?]+)' . preg_quote(self::API_VERSION) .'#',
+            '#' . $uri . '([^?]+)' . preg_quote(self::API_VERSION) . '#',
             $response,
             $matches
         );
