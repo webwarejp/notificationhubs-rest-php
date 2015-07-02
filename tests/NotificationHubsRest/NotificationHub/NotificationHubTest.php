@@ -214,18 +214,6 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
         $this->mock->updateRegistration($registration);
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testUpdateRegistrationWithEtag()
-    {
-        $registration = new GcmRegistration();
-        $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                     ->setRegistrationId('2372532420827572008-85883004107185159-4');
-
-        $this->mock->updateRegistration($registration);
-    }
-
     public function testDeleteRegistration()
     {
         $this->mock->expects($this->once())

@@ -139,8 +139,8 @@ class NotificationHub
      */
     public function updateRegistration(RegistrationInterface $registration)
     {
-        if (!$registration->getRegistrationId() || !$registration->getETag()) {
-            throw new \RuntimeException('Registration ID and ETag are mandatory.');
+        if (!$registration->getRegistrationId()) {
+            throw new \RuntimeException('Registration ID is mandatory.');
         }
 
         $uri = $registration->buildUri($this->endpoint, $this->hubPath) . self::API_VERSION;
