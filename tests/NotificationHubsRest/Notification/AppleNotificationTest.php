@@ -194,6 +194,35 @@ JSON;
         $this->assertJsonStringEqualsJsonString($expected , $payload);
     }
 
+    public function testGetPayloadWithCustomData()
+    {
+        $notification = new AppleNotification(array(
+            'title' => 'Game Request',
+            'body'  => 'Bob wants to play poker',
+        ), array(
+            'content-available' => 1,
+            'custom-payload-data' => array(
+                'id' => '1337',
+                'category' => '1',
+            ),
+        ));
+        $payload = $notification->getPayload();
+
+        $expected = <<<JSON
+{"aps" : {
+  "alert" : {
+    "title" : "Game Request",
+    "body" : "Bob wants to play poker"
+  },
+  "content-available" : 1
+},
+"id": "1337",
+"category": "1"}
+JSON;
+
+        $this->assertJsonStringEqualsJsonString($expected , $payload);
+    }
+
     /**
      * @expectedException \RuntimeException
      */
