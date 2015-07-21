@@ -47,7 +47,12 @@ class AppleNotification extends AbstractNotification
      */
     public function getPayload()
     {
+        $customPayloadData = null;
+
         if (!empty($this->options)) {
+            if (!empty($this->options['custom-payload-data']) && is_array($this->options['custom-payload-data'])) {
+                $customPayloadData = $this->options['custom-payload-data'];
+            }
             $payload = array_intersect_key($this->options, array_fill_keys($this->supportedOptions, 0));
         } else {
             $payload = array();
@@ -63,6 +68,10 @@ class AppleNotification extends AbstractNotification
         }
 
         $payload = array('aps' => $payload);
+
+        if (!empty($customPayloadData)) {
+            $payload += $customPayloadData;
+        }
 
         return json_encode($payload);
     }
