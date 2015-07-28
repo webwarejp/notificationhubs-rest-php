@@ -61,6 +61,20 @@ class GcmNotificationTest extends \PHPUnit_Framework_TestCase
         ), $notification->getHeaders());
     }
 
+    public function testGetHeadersWithScheduleTime()
+    {
+        $scheduleTime = new \DateTime();
+        $notification = new GcmNotification('Hello!', array(), '', $scheduleTime);
+
+        $scheduleTime->setTimeZone(new \DateTimeZone('UTC'));
+
+        $this->assertEquals(array(
+            'Content-Type: application/json;charset=utf-8',
+            'ServiceBusNotification-Format: gcm',
+            'ServiceBusNotification-ScheduleTime: ' . $scheduleTime->format(GcmNotification::SCHEDULE_TIME_FORMAT),
+        ), $notification->getHeaders());
+    }
+
     public function testBuildUri()
     {
         $notification = new GcmNotification('Hello!');

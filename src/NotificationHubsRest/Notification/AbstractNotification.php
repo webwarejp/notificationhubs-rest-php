@@ -12,6 +12,9 @@ abstract class AbstractNotification implements NotificationInterface
     protected $alert;
     protected $options;
     protected $tagsOrTagExpression;
+    protected $scheduleTime;
+
+    const SCHEDULE_TIME_FORMAT = 'Y-m-d\TH:i:s';
 
     /**
      * Constructor
@@ -19,14 +22,16 @@ abstract class AbstractNotification implements NotificationInterface
      * @param string|array $alert
      * @param array        $options
      * @param string|array $tagsOrTagExpression
+     * @param \DateTime    $scheduleTime
      *
      * @throws \RuntimeException
      */
-    public function __construct($alert, $options = array(), $tagsOrTagExpression = '')
+    public function __construct($alert, $options = array(), $tagsOrTagExpression = '', \DateTime $scheduleTime = null)
     {
         $this->alert = $alert;
         $this->options = $options;
         $this->tagsOrTagExpression = $tagsOrTagExpression;
+        $this->scheduleTime = $scheduleTime;
     }
 
     /**
@@ -51,6 +56,11 @@ abstract class AbstractNotification implements NotificationInterface
             $headers[] = 'ServiceBusNotification-Tags: ' . $tagExpression;
         }
 
+        if ($this->scheduleTime instanceof \DateTime) {
+            $this->scheduleTime->setTimeZone(new \DateTimeZone('UTC'));
+            $headers[] = 'ServiceBusNotification-ScheduleTime: ' . $this->scheduleTime->format(self::SCHEDULE_TIME_FORMAT);
+        }
+
         return $headers;
     }
 
@@ -59,6 +69,9 @@ abstract class AbstractNotification implements NotificationInterface
      */
     public function buildUri($endpoint, $hubPath)
     {
+        if ($this->scheduleTime instanceof \DateTime) {
+            return $endpoint . $hubPath . '/schedulednotifications/';
+        }
         return $endpoint . $hubPath . '/messages/';
     }
 
