@@ -269,7 +269,7 @@ class NotificationHub
 
         $info = curl_getinfo($ch);
         if ($info['http_code'] != 200 && $info['http_code'] != 201) {
-            throw new \RuntimeException('Error sending notificaiton: ' . $info['http_code'] . ' msg: ' . $response);
+            throw new \RuntimeException('Error sending request: ' . $info['http_code'] . ' msg: ' . $response);
         }
 
         return $response;
