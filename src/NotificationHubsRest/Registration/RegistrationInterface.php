@@ -45,4 +45,11 @@ interface RegistrationInterface extends ApiContentInterface
      * @return string
      */
     public function getTokenTag();
+
+    /**
+     * Returns the token.
+     *
+     * @return string
+     */
+    public function getToken();
 }
