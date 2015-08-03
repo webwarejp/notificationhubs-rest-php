@@ -217,7 +217,7 @@ class NotificationHub
         }
 
         $uri = $registration->buildUri($this->endpoint, $this->hubPath) . self::API_VERSION .
-               '&$filter=' . urlencode($registration->getTokenTag() . ' eq \'' . $registration->getToken() . '\'');
+                '&$filter=' . urlencode($registration->getTokenTag() . ' eq \'' . $registration->getToken() . '\'');
 
         $token = $this->generateSasToken($uri);
         $headers = array_merge(array('Authorization: ' . $token), $registration->getHeaders());
@@ -273,7 +273,7 @@ class NotificationHub
      *
      * @throws \RuntimeException
      *
-     * @return mixed
+     * @return string
      *
      * @codeCoverageIgnore
      */
