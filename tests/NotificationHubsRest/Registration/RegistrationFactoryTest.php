@@ -5,6 +5,7 @@ namespace Openpp\NotificationHubsRest\Registration\Tests;
 use Openpp\NotificationHubsRest\Registration\RegistrationFactory;
 use Openpp\NotificationHubsRest\Registration\GcmRegistration;
 use Openpp\NotificationHubsRest\Registration\AppleRegistration;
+use Openpp\NotificationHubsRest\Registration\WindowsRegistration;
 
 /**
  *
@@ -33,11 +34,17 @@ class RegistrationFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($registration instanceof AppleRegistration);
     }
 
+    public function testCreateWindowsRegistration()
+    {
+        $registration = $this->factory->createRegistration("windows");
+        $this->assertTrue($registration instanceof WindowsRegistration);
+    }
+
     /**
      * @expectedException \RuntimeException
      */
     public function testCreateInvalidRegistration()
     {
-        $registration = $this->factory->createRegistration("windows");
+        $registration = $this->factory->createRegistration("baidu");
     }
 }
