@@ -202,6 +202,41 @@ class NotificationHub
     }
 
     /**
+     * Read All Registrations of a Channel
+     *
+     * @param RegistrationInterface $registration
+     *
+     * @throws \RuntimeException
+     *
+     * @return mixed
+     */
+    public function readAllRegistrationsOfAChannel(RegistrationInterface $registration)
+    {
+        if (!$registration->getToken()) {
+            throw new \RuntimeException('Token is mandatory.');
+        }
+
+        $uri = $registration->buildUri($this->endpoint, $this->hubPath) . self::API_VERSION .
+               '&$filter=' . urlencode($registration->getTokenTag() . ' eq \'' . $registration->getToken() . '\'');
+
+        $token = $this->generateSasToken($uri);
+        $headers = array_merge(array('Authorization: ' . $token), $registration->getHeaders());
+
+        $response = $this->request(self::METHOD_GET, $uri, $headers);
+
+        $dom = new \DOMDocument();
+        $dom->loadXML($response);
+
+        $registrations = array();
+        foreach ($dom->getElementsByTagName('entry') as $entry) {
+            $registrations[] = $registration->scrapeResponse($dom->saveXML($entry));
+        }
+
+        return $registrations;
+    }
+
+
+    /**
      * Create Registration ID
      *
      * @return string Registration ID

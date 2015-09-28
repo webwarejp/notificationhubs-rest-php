@@ -107,6 +107,16 @@ abstract class AbstractRegistration implements RegistrationInterface
     }
 
     /**
+     * Returns the token.
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
      * Returns the registration ID.
      *
      * @return string
