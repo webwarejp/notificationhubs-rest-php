@@ -288,6 +288,8 @@ RESPONSE;
 
     public function testScrapeTemplateRegistrationResponse()
     {
+        self::markTestSkipped( "Not yet ready" );
+
         $registration = new WindowsRegistration();
         $registration->setToken('http://channel.uri/endpoint')
                      ->setTags(array('ios', 'female', 'japanese'))
