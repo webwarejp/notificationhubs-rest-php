@@ -1,12 +1,12 @@
 {
-    "name": "openpp/notificationhubs-rest-php",
+    "name": "mobagel/notificationhubs-rest-php",
     "type": "library",
-    "description": "Microsoft Azure Notification Hub library for PHP",
+    "description": "Microsoft Azure Notification Hub library for PHP, fork from webware.Inc project",
     "keywords": ["push", "notificationhub", "openpp", "azure"],
     "license": "MIT",
     "authors": [
         {
-            "name": "webware,Inc."
+            "name": "MoBagel Inc."
         }
     ],
     "require": {
