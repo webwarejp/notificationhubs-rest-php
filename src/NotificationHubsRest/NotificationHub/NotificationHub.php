@@ -13,7 +13,7 @@ use Openpp\NotificationHubsRest\Registration\GcmRegistration;
  */
 class NotificationHub
 {
-    const API_VERSION = "?api-version=2013-08";
+    const API_VERSION = "?api-version=2015-01";
 
     const METHOD_GET    = 'GET';
     const METHOD_POST   = 'POST';
@@ -95,10 +95,35 @@ class NotificationHub
      */
     public function sendNotification(NotificationInterface $notification)
     {
-        $uri = $notification->buildUri($this->endpoint, $this->hubPath) . self::API_VERSION;
+        $uri = $notification->buildUri($this->endpoint, $this->hubPath). self::API_VERSION;
 
         $token = $this->generateSasToken($uri);
-        $headers = array_merge(array('Authorization: ' . $token), $notification->getHeaders());
+
+        $headers = array_merge(['Authorization: ' . $token], $notification->getHeaders());
+
+        $this->request(self::METHOD_POST, $uri, $headers, $notification->getPayload());
+    }
+
+    /**
+     * Send a Notification with device token
+     *
+     * @param NotificationInterface $notification
+     *
+     * @return void
+     */
+    public function sendNotificationWithToken(NotificationInterface $notification)
+    {
+        // $uri = $notification->buildUri($this->endpoint, $this->hubPath). '?direct&api-version=2015-01';
+        $uri = $notification->buildUri($this->endpoint, $this->hubPath). '?direct' . self::API_VERSION;
+
+        $token = $this->generateSasToken($uri);
+
+        $headers = array_merge([
+            'Authorization: ' . $token,
+            'ServiceBusNotification-DeviceHandle: ' . $notification->getToken(),
+            ],
+            $notification->getHeaders()
+        );
 
         $this->request(self::METHOD_POST, $uri, $headers, $notification->getPayload());
     }
@@ -122,6 +147,9 @@ class NotificationHub
 
         $token = $this->generateSasToken($uri);
         $headers = array_merge(array('Authorization: ' . $token), $registration->getHeaders());
+
+        // $testing = ["uri" => $uri, "headers" => $headers];
+        // return $testing;
 
         $response = $this->request(self::METHOD_POST, $uri, $headers, $registration->getPayload());
 

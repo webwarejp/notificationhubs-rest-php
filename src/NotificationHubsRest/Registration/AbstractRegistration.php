@@ -179,7 +179,7 @@ abstract class AbstractRegistration implements RegistrationInterface
     {
         $headers = array(
             'Content-Type: ' . $this->getContentType(),
-            'x-ms-version: ' . '2013-08'
+            'x-ms-version: ' . '2015-01'
         );
 
         if ($this->eTag) {

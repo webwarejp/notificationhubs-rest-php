@@ -13,6 +13,7 @@ abstract class AbstractNotification implements NotificationInterface
     protected $options;
     protected $tagsOrTagExpression;
     protected $scheduleTime;
+    protected $deviceToken;
 
     const SCHEDULE_TIME_FORMAT = 'Y-m-d\TH:i:s';
 
@@ -73,6 +74,20 @@ abstract class AbstractNotification implements NotificationInterface
             return $endpoint . $hubPath . '/schedulednotifications/';
         }
         return $endpoint . $hubPath . '/messages/';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setToken($deviceToken){
+        $this->deviceToken = $deviceToken;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getToken(){
+        return $this->deviceToken;
     }
 
     /**
