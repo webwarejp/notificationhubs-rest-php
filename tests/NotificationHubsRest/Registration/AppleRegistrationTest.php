@@ -12,7 +12,7 @@ class AppleRegistrationTest extends \PHPUnit_Framework_TestCase
         $registration->setToken('abcdefghijklmnopqrstuvwxyz');
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -33,7 +33,7 @@ XML;
                      ->setTags('ios');
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -55,7 +55,7 @@ XML;
                      ->setTags(['ios', 'female', 'japanese']);
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -77,7 +77,7 @@ XML;
                      ->setTemplate($this->getTemplate());
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -103,7 +103,7 @@ XML;
                      ->setTemplate($this->getTemplate());
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -129,7 +129,7 @@ XML;
                      ->setTemplate($this->getTemplate());
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -156,7 +156,7 @@ XML;
                      ->setExpiry($expiry);
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -235,7 +235,7 @@ XML;
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
                      ->setTags(['ios', 'female', 'japanese']);
 
-        $response = <<<RESPONSE
+        $response = <<<'RESPONSE'
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
         <AppleRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
@@ -268,7 +268,7 @@ RESPONSE;
                       ->setTemplate('{ "aps": { "alert": "$(message)"} }')
                       ->setExpiry(3000);
 
-        $response = <<<RESPONSE
+        $response = <<<'RESPONSE'
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
         <AppleTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">

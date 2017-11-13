@@ -12,7 +12,7 @@ class GcmRegistrationTest extends \PHPUnit_Framework_TestCase
         $registration->setToken('abcdefghijklmnopqrstuvwxyz');
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -34,7 +34,7 @@ XML;
                      ->setTags('android');
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -56,7 +56,7 @@ XML;
                      ->setTags(['android', 'male', 'japanese']);
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -78,7 +78,7 @@ XML;
                      ->setTemplate($this->getTemplate());
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -102,7 +102,7 @@ XML;
                      ->setTemplate($this->getTemplate());
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -128,7 +128,7 @@ XML;
                      ->setTemplate($this->getTemplate());
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -208,7 +208,7 @@ XML;
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
                      ->setTags(['android', 'male', 'japanese']);
 
-        $response = <<<RESPONSE
+        $response = <<<'RESPONSE'
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
         <GcmRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
@@ -240,7 +240,7 @@ RESPONSE;
                      ->setTags(['android', 'male', 'japanese'])
                      ->setTemplate('{ "gcm": { "data": "$(message)"} }');
 
-        $response = <<<RESPONSE
+        $response = <<<'RESPONSE'
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
         <GcmTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
@@ -276,7 +276,7 @@ RESPONSE;
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
                      ->setTags(['android', 'male', 'japanese']);
 
-        $response = <<<RESPONSE
+        $response = <<<'RESPONSE'
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
         <GcmTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
