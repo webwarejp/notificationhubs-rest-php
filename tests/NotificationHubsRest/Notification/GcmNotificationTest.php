@@ -4,11 +4,6 @@ namespace Openpp\NotificationHubsRest\Notification\Tests;
 
 use Openpp\NotificationHubsRest\Notification\GcmNotification;
 
-/**
- * 
- * @author shiroko@webware.co.jp
- *
- */
 class GcmNotificationTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetContentType()
@@ -22,57 +17,57 @@ class GcmNotificationTest extends \PHPUnit_Framework_TestCase
     {
         $notification = new GcmNotification('Hello!');
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/json;charset=utf-8',
             'ServiceBusNotification-Format: gcm',
-        ), $notification->getHeaders());
+        ], $notification->getHeaders());
     }
 
     public function testGetHeadersWithATag()
     {
-        $notification = new GcmNotification('Hello!', array(), 'male');
+        $notification = new GcmNotification('Hello!', [], 'male');
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/json;charset=utf-8',
             'ServiceBusNotification-Format: gcm',
-            'ServiceBusNotification-Tags: male'
-        ), $notification->getHeaders());
+            'ServiceBusNotification-Tags: male',
+        ], $notification->getHeaders());
     }
 
     public function testGetHeadersWithTags()
     {
-        $notification = new GcmNotification('Hello!', array(), array('android', 'male', 'japanese'));
+        $notification = new GcmNotification('Hello!', [], ['android', 'male', 'japanese']);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/json;charset=utf-8',
             'ServiceBusNotification-Format: gcm',
-            'ServiceBusNotification-Tags: android || male || japanese'
-        ), $notification->getHeaders());
+            'ServiceBusNotification-Tags: android || male || japanese',
+        ], $notification->getHeaders());
     }
 
     public function testGetHeadersWithTagExpression()
     {
-        $notification = new GcmNotification('Hello!', array(), '(android && male) || japanese');
+        $notification = new GcmNotification('Hello!', [], '(android && male) || japanese');
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/json;charset=utf-8',
             'ServiceBusNotification-Format: gcm',
-            'ServiceBusNotification-Tags: (android && male) || japanese'
-        ), $notification->getHeaders());
+            'ServiceBusNotification-Tags: (android && male) || japanese',
+        ], $notification->getHeaders());
     }
 
     public function testGetHeadersWithScheduleTime()
     {
         $scheduleTime = new \DateTime();
-        $notification = new GcmNotification('Hello!', array(), '', $scheduleTime);
+        $notification = new GcmNotification('Hello!', [], '', $scheduleTime);
 
         $scheduleTime->setTimeZone(new \DateTimeZone('UTC'));
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/json;charset=utf-8',
             'ServiceBusNotification-Format: gcm',
-            'ServiceBusNotification-ScheduleTime: ' . $scheduleTime->format(GcmNotification::SCHEDULE_TIME_FORMAT),
-        ), $notification->getHeaders());
+            'ServiceBusNotification-ScheduleTime: '.$scheduleTime->format(GcmNotification::SCHEDULE_TIME_FORMAT),
+        ], $notification->getHeaders());
     }
 
     public function testBuildUri()
@@ -108,12 +103,12 @@ JSON;
 
     public function testGetPayloadWithSupportedOptions()
     {
-        $notification = new GcmNotification('Hello!', array(
-            'collapse_key' => "demo",
+        $notification = new GcmNotification('Hello!', [
+            'collapse_key' => 'demo',
             'delay_while_idle' => true,
             'time_to_live' => 3,
             'restricted_package_name' => 'abc',
-            'dry_run' => true,));
+            'dry_run' => true, ]);
         $payload = $notification->getPayload();
 
         $expected = <<<JSON
@@ -134,10 +129,10 @@ JSON;
 
     public function testGetPayloadWithUnsupportedOptionsAndNoProperies()
     {
-        $notification = new GcmNotification('Hello!', array(
+        $notification = new GcmNotification('Hello!', [
             'badge' => 3,
-            'collapse_key' => 'aaa'
-        ));
+            'collapse_key' => 'aaa',
+        ]);
         $payload = $notification->getPayload();
 
         $this->assertJsonStringEqualsJsonString('{"collapse_key" : "aaa", "data" :  {"message" : "Hello!"}}', $payload);
@@ -145,10 +140,10 @@ JSON;
 
     public function testGetPayloadWithNoOptionsAndProperies()
     {
-        $notification = new GcmNotification(array(
+        $notification = new GcmNotification([
             'title' => 'Game Request',
-            'body'  => 'Bob wants to play poker',
-        ), array());
+            'body' => 'Bob wants to play poker',
+        ], []);
         $payload = $notification->getPayload();
 
         $expected = <<<JSON
@@ -160,20 +155,19 @@ JSON;
 }
 JSON;
 
-        $this->assertJsonStringEqualsJsonString($expected , $payload);
+        $this->assertJsonStringEqualsJsonString($expected, $payload);
     }
-
 
     public function testGetPayloadWithSupportedOptionsAndProperies()
     {
-        $notification = new GcmNotification(array(
+        $notification = new GcmNotification([
             'title' => 'Game Request',
-            'body'  => 'Bob wants to play poker',
-        ), array(
-            'collapse_key' => "demo",
+            'body' => 'Bob wants to play poker',
+        ], [
+            'collapse_key' => 'demo',
             'delay_while_idle' => true,
             'time_to_live' => 3,
-        ));
+        ]);
         $payload = $notification->getPayload();
 
         $expected = <<<JSON
@@ -188,7 +182,7 @@ JSON;
 }
 JSON;
 
-        $this->assertJsonStringEqualsJsonString($expected , $payload);
+        $this->assertJsonStringEqualsJsonString($expected, $payload);
     }
 
     /**

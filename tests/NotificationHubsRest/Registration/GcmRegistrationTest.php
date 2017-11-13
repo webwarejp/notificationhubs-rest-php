@@ -4,11 +4,6 @@ namespace Openpp\NotificationHubsRest\Registration\Tests;
 
 use Openpp\NotificationHubsRest\Registration\GcmRegistration;
 
-/**
- * 
- * @author shiroko@webware.co.jp
- *
- */
 class GcmRegistrationTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegistration()
@@ -58,7 +53,7 @@ XML;
     {
         $registration = new GcmRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                     ->setTags(array('android', 'male', 'japanese'));
+                     ->setTags(['android', 'male', 'japanese']);
         $payload = $registration->getPayload();
 
         $expected = <<<XML
@@ -74,13 +69,6 @@ XML;
 XML;
 
         $this->assertXmlStringEqualsXmlString($expected, $payload);
-    }
-
-    protected function getTemplate()
-    {
-        $template = '{“data”:{“message”:”$(message)”}}';
-
-        return $template;
     }
 
     public function testTemplateRegistration()
@@ -136,7 +124,7 @@ XML;
     {
         $registration = new GcmRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                     ->setTags(array('android', 'male', 'japanese'))
+                     ->setTags(['android', 'male', 'japanese'])
                      ->setTemplate($this->getTemplate());
         $payload = $registration->getPayload();
 
@@ -174,7 +162,7 @@ XML;
         $uri = $registration->buildUri('aaa.servicebus.windows.net/', 'myhub');
         $this->assertEquals('aaa.servicebus.windows.net/myhub/registrations/', $uri);
     }
-    
+
     public function testBuildUriWithRegistrationId()
     {
         $registration = new GcmRegistration();
@@ -183,34 +171,34 @@ XML;
         $uri = $registration->buildUri('aaa.servicebus.windows.net/', 'myhub');
         $this->assertEquals('aaa.servicebus.windows.net/myhub/registrations/abcdefg', $uri);
     }
-    
+
     public function testGetContentType()
     {
         $registration = new GcmRegistration();
         $this->assertEquals('application/atom+xml;type=entry;charset=utf-8', $registration->getContentType());
     }
-    
+
     public function testGetHeadersWithNoEtag()
     {
         $registration = new GcmRegistration();
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/atom+xml;type=entry;charset=utf-8',
-            'x-ms-version: ' . '2013-08',
-        ),
+            'x-ms-version: '.'2013-08',
+        ],
                 $registration->getHeaders());
     }
-    
+
     public function testGetHeadersWithEtag()
     {
         $registration = new GcmRegistration();
         $registration->setETag('abcdefg');
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/atom+xml;type=entry;charset=utf-8',
             'x-ms-version: 2013-08',
             'If-Match: abcdefg',
-        ),
+        ],
                 $registration->getHeaders());
     }
 
@@ -218,7 +206,7 @@ XML;
     {
         $registration = new GcmRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                     ->setTags(array('android', 'male', 'japanese'));
+                     ->setTags(['android', 'male', 'japanese']);
 
         $response = <<<RESPONSE
 <entry xmlns="http://www.w3.org/2005/Atom">
@@ -236,20 +224,20 @@ RESPONSE;
 
         $result = $registration->scrapeResponse($response);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'ETag' => '3',
             'ExpirationTime' => '2014-09-01T15:57:46.778Z',
             'RegistrationId' => '2372532420827572008-85883004107185159-4',
             'Tags' => 'android, male, japanese',
             'GcmRegistrationId' => 'abcdefghijklmnopqrstuvwxyz',
-        ), $result);
+        ], $result);
     }
-    
+
     public function testScrapeTemplateRegistrationResponse()
     {
         $registration = new GcmRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                     ->setTags(array('android', 'male', 'japanese'))
+                     ->setTags(['android', 'male', 'japanese'])
                      ->setTemplate('{ "gcm": { "data": "$(message)"} }');
 
         $response = <<<RESPONSE
@@ -269,14 +257,14 @@ RESPONSE;
 
         $result = $registration->scrapeResponse($response);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'ETag' => '3',
             'ExpirationTime' => '2014-09-01T15:57:46.778Z',
             'RegistrationId' => '2372532420827572008-85883004107185159-4',
             'Tags' => 'android, male, japanese',
             'GcmRegistrationId' => 'abcdefghijklmnopqrstuvwxyz',
-            'BodyTemplate' => '{ "gcm": { "data": "$(message)"} }'
-        ), $result);
+            'BodyTemplate' => '{ "gcm": { "data": "$(message)"} }',
+        ], $result);
     }
 
     /**
@@ -286,7 +274,7 @@ RESPONSE;
     {
         $registration = new GcmRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                     ->setTags(array('android', 'male', 'japanese'));
+                     ->setTags(['android', 'male', 'japanese']);
 
         $response = <<<RESPONSE
 <entry xmlns="http://www.w3.org/2005/Atom">
@@ -303,5 +291,12 @@ RESPONSE;
 RESPONSE;
 
         $registration->scrapeResponse($response);
+    }
+
+    protected function getTemplate()
+    {
+        $template = '{“data”:{“message”:”$(message)”}}';
+
+        return $template;
     }
 }

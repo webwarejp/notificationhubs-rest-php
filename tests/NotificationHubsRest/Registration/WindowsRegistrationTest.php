@@ -4,11 +4,6 @@ namespace Openpp\NotificationHubsRest\Registration\Tests;
 
 use Openpp\NotificationHubsRest\Registration\WindowsRegistration;
 
-/**
- *
- * @author glecerf@gmail.com
- *
- */
 class WindowsRegistrationTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegistration()
@@ -57,7 +52,7 @@ XML;
     {
         $registration = new WindowsRegistration();
         $registration->setToken('http://channel.uri/endpoint')
-                     ->setTags(array('ios', 'female', 'japanese'));
+                     ->setTags(['ios', 'female', 'japanese']);
         $payload = $registration->getPayload();
 
         $expected = <<<XML
@@ -73,13 +68,6 @@ XML;
 XML;
 
         $this->assertXmlStringEqualsXmlString($expected, $payload);
-    }
-
-    protected function getTemplate()
-    {
-        $template = '{"aps":{"alert":"$(message)"}}';
-
-        return $template;
     }
 
     public function testTemplateRegistration()
@@ -159,7 +147,7 @@ XML;
     {
         $registration = new WindowsRegistration();
         $registration->setToken('http://channel.uri/endpoint')
-                     ->setTags(array('ios', 'female', 'japanese'))
+                     ->setTags(['ios', 'female', 'japanese'])
                      ->setTemplate($this->getTemplate())
                      ->setWnsType('wns/tile')
                      ->setWnsTag('myTag');
@@ -199,7 +187,7 @@ XML;
     public function testNoToken()
     {
         $registration = new WindowsRegistration();
-        $payload = $registration->getPayload();
+        $registration->getPayload();
     }
 
     public function testBuildUriWithNoRegistrationId()
@@ -230,10 +218,10 @@ XML;
         $registration = new WindowsRegistration();
 
         $this->assertEquals(
-            array(
+            [
                 'Content-Type: application/atom+xml;type=entry;charset=utf-8',
-                'x-ms-version: ' . '2013-08',
-            ),
+                'x-ms-version: '.'2013-08',
+            ],
             $registration->getHeaders()
         );
     }
@@ -244,11 +232,11 @@ XML;
         $registration->setETag('abcdefg');
 
         $this->assertEquals(
-            array(
+            [
                 'Content-Type: application/atom+xml;type=entry;charset=utf-8',
                 'x-ms-version: 2013-08',
                 'If-Match: abcdefg',
-            ),
+            ],
             $registration->getHeaders()
         );
     }
@@ -257,7 +245,7 @@ XML;
     {
         $registration = new WindowsRegistration();
         $registration->setToken('http://channel.uri/endpoint')
-                     ->setTags(array('ios', 'female', 'japanese'));
+                     ->setTags(['ios', 'female', 'japanese']);
 
         $response = <<<RESPONSE
 <entry xmlns="http://www.w3.org/2005/Atom">
@@ -275,24 +263,24 @@ RESPONSE;
 
         $result = $registration->scrapeResponse($response);
         $this->assertEquals(
-            array(
+            [
                 'ETag' => '3',
                 'ExpirationTime' => '2014-09-01T15:57:46.778Z',
                 'RegistrationId' => '2372532420827572008-85883004107185159-4',
                 'Tags' => 'ios, female, japanese',
                 'ChannelUri' => 'http://channel.uri/endpoint',
-            ),
+            ],
             $result
         );
     }
 
     public function testScrapeTemplateRegistrationResponse()
     {
-        self::markTestSkipped( "Not yet ready" );
+        self::markTestSkipped('Not yet ready');
 
         $registration = new WindowsRegistration();
         $registration->setToken('http://channel.uri/endpoint')
-                     ->setTags(array('ios', 'female', 'japanese'))
+                     ->setTags(['ios', 'female', 'japanese'])
                      ->setTemplate('{ "aps": { "alert": "$(message)"} }')
                      ->setWnsType('wns/tile')
                      ->setWnsTag('myTag');
@@ -325,16 +313,23 @@ RESPONSE;
 
         $result = $registration->scrapeResponse($response);
         $this->assertEquals(
-            array(
+            [
                 'ETag' => '3',
                 'ExpirationTime' => '2014-09-01T15:57:46.778Z',
                 'RegistrationId' => '2372532420827572008-85883004107185159-4',
                 'Tags' => 'ios, female, japanese',
                 'ChannelUri' => 'http://channel.uri/endpoint',
                 'BodyTemplate' => '{ "aps": { "alert": "$(message)"} }',
-                'Expiry' => '3000'
-            ),
+                'Expiry' => '3000',
+            ],
             $result
         );
+    }
+
+    protected function getTemplate()
+    {
+        $template = '{"aps":{"alert":"$(message)"}}';
+
+        return $template;
     }
 }

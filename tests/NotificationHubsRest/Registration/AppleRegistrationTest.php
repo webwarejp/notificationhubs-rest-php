@@ -4,11 +4,6 @@ namespace Openpp\NotificationHubsRest\Registration\Tests;
 
 use Openpp\NotificationHubsRest\Registration\AppleRegistration;
 
-/**
- * 
- * @author shiroko@webware.co.jp
- *
- */
 class AppleRegistrationTest extends \PHPUnit_Framework_TestCase
 {
     public function testRegistration()
@@ -57,7 +52,7 @@ XML;
     {
         $registration = new AppleRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                     ->setTags(array('ios', 'female', 'japanese'));
+                     ->setTags(['ios', 'female', 'japanese']);
         $payload = $registration->getPayload();
 
         $expected = <<<XML
@@ -73,13 +68,6 @@ XML;
 XML;
 
         $this->assertXmlStringEqualsXmlString($expected, $payload);
-    }
-
-    protected function getTemplate()
-    {
-        $template = '{“aps”:{“alert”:”$(message)”}}';
-
-        return $template;
     }
 
     public function testTemplateRegistration()
@@ -137,7 +125,7 @@ XML;
     {
         $registration = new AppleRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                     ->setTags(array('ios', 'female', 'japanese'))
+                     ->setTags(['ios', 'female', 'japanese'])
                      ->setTemplate($this->getTemplate());
         $payload = $registration->getPayload();
 
@@ -161,7 +149,7 @@ XML;
 
     public function testTemplateRegistrationWithExpiry()
     {
-        $expiry = time() + (60*60);
+        $expiry = time() + (60 * 60);
         $registration = new AppleRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
                      ->setTemplate($this->getTemplate())
@@ -206,7 +194,7 @@ XML;
     {
         $registration = new AppleRegistration();
         $registration->setRegistrationId('abcdefg');
-    
+
         $uri = $registration->buildUri('aaa.servicebus.windows.net/', 'myhub');
         $this->assertEquals('aaa.servicebus.windows.net/myhub/registrations/abcdefg', $uri);
     }
@@ -221,10 +209,10 @@ XML;
     {
         $registration = new AppleRegistration();
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/atom+xml;type=entry;charset=utf-8',
-            'x-ms-version: ' . '2013-08',
-        ), 
+            'x-ms-version: '.'2013-08',
+        ],
         $registration->getHeaders());
     }
 
@@ -233,11 +221,11 @@ XML;
         $registration = new AppleRegistration();
         $registration->setETag('abcdefg');
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/atom+xml;type=entry;charset=utf-8',
             'x-ms-version: 2013-08',
             'If-Match: abcdefg',
-        ),
+        ],
         $registration->getHeaders());
     }
 
@@ -245,7 +233,7 @@ XML;
     {
         $registration = new AppleRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                     ->setTags(array('ios', 'female', 'japanese'));
+                     ->setTags(['ios', 'female', 'japanese']);
 
         $response = <<<RESPONSE
 <entry xmlns="http://www.w3.org/2005/Atom">
@@ -263,20 +251,20 @@ RESPONSE;
 
         $result = $registration->scrapeResponse($response);
         //fwrite(STDERR, print_r($result, TRUE));
-        $this->assertEquals(array(
+        $this->assertEquals([
             'ETag' => '3',
             'ExpirationTime' => '2014-09-01T15:57:46.778Z',
             'RegistrationId' => '2372532420827572008-85883004107185159-4',
             'Tags' => 'ios, female, japanese',
             'DeviceToken' => 'abcdefghijklmnopqrstuvwxyz',
-        ), $result);
+        ], $result);
     }
 
     public function testScrapeTemplateRegistrationResponse()
     {
         $registration = new AppleRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                      ->setTags(array('ios', 'female', 'japanese'))
+                      ->setTags(['ios', 'female', 'japanese'])
                       ->setTemplate('{ "aps": { "alert": "$(message)"} }')
                       ->setExpiry(3000);
 
@@ -295,17 +283,24 @@ RESPONSE;
     </content>
 </entry>
 RESPONSE;
-    
+
         $result = $registration->scrapeResponse($response);
         //fwrite(STDERR, print_r($result, TRUE));
-        $this->assertEquals(array(
+        $this->assertEquals([
             'ETag' => '3',
             'ExpirationTime' => '2014-09-01T15:57:46.778Z',
             'RegistrationId' => '2372532420827572008-85883004107185159-4',
             'Tags' => 'ios, female, japanese',
             'DeviceToken' => 'abcdefghijklmnopqrstuvwxyz',
             'BodyTemplate' => '{ "aps": { "alert": "$(message)"} }',
-            'Expiry' => '3000'
-        ), $result);
+            'Expiry' => '3000',
+        ], $result);
+    }
+
+    protected function getTemplate()
+    {
+        $template = '{“aps”:{“alert”:”$(message)”}}';
+
+        return $template;
     }
 }

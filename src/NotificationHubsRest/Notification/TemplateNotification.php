@@ -2,11 +2,6 @@
 
 namespace Openpp\NotificationHubsRest\Notification;
 
-/**
- * 
- * @author shiroko@webware.co.jp
- *
- */
 class TemplateNotification extends AbstractNotification
 {
     /**
@@ -14,7 +9,7 @@ class TemplateNotification extends AbstractNotification
      */
     public function getFormat()
     {
-        return "template";
+        return 'template';
     }
 
     /**
@@ -22,7 +17,7 @@ class TemplateNotification extends AbstractNotification
      */
     public function getContentType()
     {
-        return "application/json;charset=utf-8";
+        return 'application/json;charset=utf-8';
     }
 
     /**
@@ -32,7 +27,7 @@ class TemplateNotification extends AbstractNotification
     {
         if (is_array($this->alert)) {
             $payload = json_encode($this->alert);
-        } else if (is_string($this->alert)) {
+        } elseif (is_string($this->alert)) {
             $payload = $this->alert;
         } else {
             throw new \RuntimeException('Invalid alert.');

@@ -4,11 +4,6 @@ namespace Openpp\NotificationHubsRest\Registration;
 
 use Openpp\NotificationHubsRest\NotificationHub\ApiContentInterface;
 
-/**
- * 
- * @author shiroko@webware.co.jp
- *
- */
 interface RegistrationInterface extends ApiContentInterface
 {
     /**

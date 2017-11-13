@@ -2,14 +2,16 @@
 
 namespace Openpp\NotificationHubsRest\Registration;
 
-/**
- *
- * @author glecerf@gmail.com
- *
- */
 class WindowsRegistration extends AbstractRegistration
 {
+    /**
+     * @var string
+     */
     protected $wnsType;
+
+    /**
+     * @var string
+     */
     protected $wnsTag;
 
     /**
@@ -37,7 +39,7 @@ class WindowsRegistration extends AbstractRegistration
     }
 
     /**
-     * Sets the X-WNS-Type header value
+     * Sets the X-WNS-Type header value.
      *
      * @param string $wnsType
      *
@@ -51,7 +53,7 @@ class WindowsRegistration extends AbstractRegistration
     }
 
     /**
-     * Sets the X-WNS-Tag header value
+     * Sets the X-WNS-Tag header value.
      *
      * @param string $wnsTag
      *

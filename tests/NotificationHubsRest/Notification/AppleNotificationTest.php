@@ -4,11 +4,6 @@ namespace Openpp\NotificationHubsRest\Notification\Tests;
 
 use Openpp\NotificationHubsRest\Notification\AppleNotification;
 
-/**
- * 
- * @author shiroko@webware.co.jp
- *
- */
 class AppleNotificationTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetContentType()
@@ -22,43 +17,43 @@ class AppleNotificationTest extends \PHPUnit_Framework_TestCase
     {
         $notification = new AppleNotification('Hello!');
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/json;charset=utf-8',
             'ServiceBusNotification-Format: apple',
-        ), $notification->getHeaders());
+        ], $notification->getHeaders());
     }
 
     public function testGetHeadersWithATag()
     {
-        $notification = new AppleNotification('Hello!', array(), 'female');
+        $notification = new AppleNotification('Hello!', [], 'female');
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/json;charset=utf-8',
             'ServiceBusNotification-Format: apple',
-            'ServiceBusNotification-Tags: female'
-        ), $notification->getHeaders());
+            'ServiceBusNotification-Tags: female',
+        ], $notification->getHeaders());
     }
 
     public function testGetHeadersWithTags()
     {
-        $notification = new AppleNotification('Hello!', array(), array('ios', 'female', 'japanese'));
+        $notification = new AppleNotification('Hello!', [], ['ios', 'female', 'japanese']);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/json;charset=utf-8',
             'ServiceBusNotification-Format: apple',
-            'ServiceBusNotification-Tags: ios || female || japanese'
-        ), $notification->getHeaders());
+            'ServiceBusNotification-Tags: ios || female || japanese',
+        ], $notification->getHeaders());
     }
 
     public function testGetHeadersWithTagExpression()
     {
-        $notification = new AppleNotification('Hello!', array(), '(ios && female) || japanese');
+        $notification = new AppleNotification('Hello!', [], '(ios && female) || japanese');
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'Content-Type: application/json;charset=utf-8',
             'ServiceBusNotification-Format: apple',
-            'ServiceBusNotification-Tags: (ios && female) || japanese'
-        ), $notification->getHeaders());
+            'ServiceBusNotification-Tags: (ios && female) || japanese',
+        ], $notification->getHeaders());
     }
 
     public function testBuildUri()
@@ -86,10 +81,10 @@ class AppleNotificationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPayloadWithSupportedOptionsAndNoProperies()
     {
-        $notification = new AppleNotification('Hello!', array(
+        $notification = new AppleNotification('Hello!', [
             'sound' => 'default',
             'badge' => 3,
-            'content-available' => 1,));
+            'content-available' => 1, ]);
         $payload = $notification->getPayload();
 
         $this->assertJsonStringEqualsJsonString('{"aps" :  {"alert" : "Hello!" ,"sound" : "default", "badge" : 3, "content-available" : 1}}', $payload);
@@ -97,10 +92,10 @@ class AppleNotificationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPayloadWithUnsupportedOptionsAndNoProperies()
     {
-        $notification = new AppleNotification('Hello!', array(
+        $notification = new AppleNotification('Hello!', [
             'badge' => 3,
-            'collapse_key' => 'aaa'
-        ));
+            'collapse_key' => 'aaa',
+        ]);
         $payload = $notification->getPayload();
 
         $this->assertJsonStringEqualsJsonString('{"aps" :  {"alert" : "Hello!" , "badge" : 3}}', $payload);
@@ -108,16 +103,16 @@ class AppleNotificationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPayloadWithNoOptionsAndSupportedProperies()
     {
-        $notification = new AppleNotification(array(
+        $notification = new AppleNotification([
             'title' => 'Game Request',
-            'body'  => 'Bob wants to play poker',
+            'body' => 'Bob wants to play poker',
             'action-loc-key' => 'PLAY',
             'title-loc-key' => 'GAME',
-            'title-loc-args' => array("Jenna", "Frank"),
+            'title-loc-args' => ['Jenna', 'Frank'],
             'loc-key' => 'PLAY_GAME',
-            'loc-args' => array("poker"),
-            'launch-image' => 'Default.png'
-        ), array());
+            'loc-args' => ['poker'],
+            'launch-image' => 'Default.png',
+        ], []);
         $payload = $notification->getPayload();
 
         $expected = <<<JSON
@@ -135,20 +130,20 @@ class AppleNotificationTest extends \PHPUnit_Framework_TestCase
 }}
 JSON;
 
-        $this->assertJsonStringEqualsJsonString($expected , $payload);
+        $this->assertJsonStringEqualsJsonString($expected, $payload);
     }
 
     public function testGetPayloadWithNoOptionsAndUnsupportedProperies()
     {
-        $notification = new AppleNotification(array(
+        $notification = new AppleNotification([
             'alert' => 'Hello!!',
             'action-loc-key' => 'PLAY',
             'title-loc-key' => 'GAME',
             'loc-key' => 'PLAY_GAME',
-            'loc-args' => array("poker"),
-            'title-loc-args' => array("Jenna", "Frank"),
-            'launch-image' => 'Default.png'
-        ), array());
+            'loc-args' => ['poker'],
+            'title-loc-args' => ['Jenna', 'Frank'],
+            'launch-image' => 'Default.png',
+        ], []);
         $payload = $notification->getPayload();
 
         $expected = <<<JSON
@@ -163,20 +158,20 @@ JSON;
   }
 }}
 JSON;
-    
-        $this->assertJsonStringEqualsJsonString($expected , $payload);
+
+        $this->assertJsonStringEqualsJsonString($expected, $payload);
     }
 
     public function testGetPayloadWithSupportedOptionsAndSupportedProperies()
     {
-        $notification = new AppleNotification(array(
+        $notification = new AppleNotification([
             'title' => 'Game Request',
-            'body'  => 'Bob wants to play poker',
-        ), array(
+            'body' => 'Bob wants to play poker',
+        ], [
             'badge' => 3,
             'sound' => 'default',
-            'content-available' => 1
-        ));
+            'content-available' => 1,
+        ]);
         $payload = $notification->getPayload();
 
         $expected = <<<JSON
@@ -191,21 +186,21 @@ JSON;
 }}
 JSON;
 
-        $this->assertJsonStringEqualsJsonString($expected , $payload);
+        $this->assertJsonStringEqualsJsonString($expected, $payload);
     }
 
     public function testGetPayloadWithCustomData()
     {
-        $notification = new AppleNotification(array(
+        $notification = new AppleNotification([
             'title' => 'Game Request',
-            'body'  => 'Bob wants to play poker',
-        ), array(
+            'body' => 'Bob wants to play poker',
+        ], [
             'content-available' => 1,
-            'custom-payload-data' => array(
+            'custom-payload-data' => [
                 'id' => '1337',
                 'category' => '1',
-            ),
-        ));
+            ],
+        ]);
         $payload = $notification->getPayload();
 
         $expected = <<<JSON
@@ -220,7 +215,7 @@ JSON;
 "category": "1"}
 JSON;
 
-        $this->assertJsonStringEqualsJsonString($expected , $payload);
+        $this->assertJsonStringEqualsJsonString($expected, $payload);
     }
 
     /**

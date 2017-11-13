@@ -2,23 +2,45 @@
 
 namespace Openpp\NotificationHubsRest\Registration;
 
-/**
- * 
- * @author shiroko@webware.co.jp
- *
- */
 abstract class AbstractRegistration implements RegistrationInterface
 {
+    /**
+     * @var \DomDocument
+     */
     protected $dom;
+
+    /**
+     * @var \DOMNode
+     */
     protected $content;
+
+    /**
+     * @var string
+     */
     protected $token;
+
+    /**
+     * @var string|string[]
+     */
     protected $tags;
+
+    /**
+     * @var string
+     */
     protected $template;
+
+    /**
+     * @var string
+     */
     protected $registrationId;
+
+    /**
+     * @var string
+     */
     protected $eTag;
 
     /**
-     * Constructor
+     * Initializes a new Registration.
      */
     public function __construct()
     {
@@ -62,20 +84,6 @@ abstract class AbstractRegistration implements RegistrationInterface
         $this->tags = $tags;
 
         return $this;
-    }
-
-    /**
-     * Returns the tags.
-     *
-     * @return string
-     */
-    private function getTags()
-    {
-        if (is_array($this->tags)) {
-            return implode(',', $this->tags);
-        }
-
-        return $this->tags;
     }
 
     /**
@@ -155,7 +163,7 @@ abstract class AbstractRegistration implements RegistrationInterface
      */
     public function buildUri($endpoint, $hubPath)
     {
-        $uri = $endpoint . $hubPath . '/registrations/';
+        $uri = $endpoint.$hubPath.'/registrations/';
 
         if ($this->registrationId) {
             $uri .= $this->registrationId;
@@ -177,13 +185,13 @@ abstract class AbstractRegistration implements RegistrationInterface
      */
     public function getHeaders()
     {
-        $headers = array(
-            'Content-Type: ' . $this->getContentType(),
-            'x-ms-version: ' . '2013-08'
-        );
+        $headers = [
+            'Content-Type: '.$this->getContentType(),
+            'x-ms-version: '.'2013-08',
+        ];
 
         if ($this->eTag) {
-            $headers[] = 'If-Match: ' . $this->eTag;
+            $headers[] = 'If-Match: '.$this->eTag;
         }
 
         return $headers;
@@ -214,9 +222,38 @@ abstract class AbstractRegistration implements RegistrationInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function scrapeResponse($response)
+    {
+        $dom = new \DOMDocument();
+        $dom->loadXML($response);
+
+        if ($this->template) {
+            $descriptionTag = $this->getTemplateRegistrationDescriptionTag();
+        } else {
+            $descriptionTag = $this->getRegistrationDescriptionTag();
+        }
+
+        $description = $dom->getElementsByTagName($descriptionTag)->item(0);
+        if (!$description) {
+            throw new \RuntimeException("Could not find '".$descriptionTag."' tag in the response: ".$response);
+        }
+
+        $result = [];
+        foreach ($description->childNodes as $child) {
+            if ('#text' != $child->nodeName) {
+                $result[$child->nodeName] = $child->nodeValue;
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Appends the registration description DOMNode.
      *
-     * @return DOMNode
+     * @return \DOMNode
      */
     protected function appendDescriptionNode()
     {
@@ -236,7 +273,7 @@ abstract class AbstractRegistration implements RegistrationInterface
     /**
      * Appends the 'Tags' DOMNode.
      *
-     * @param DOMNode $descriptionNode
+     * @param \DOMNode $descriptionNode
      */
     protected function appendTagNode($descriptionNode)
     {
@@ -250,7 +287,7 @@ abstract class AbstractRegistration implements RegistrationInterface
     /**
      * Appends the token DOMNode.
      *
-     * @param DOMNode $descriptionNode
+     * @param \DOMNode $descriptionNode
      */
     protected function appendTokenNode($descriptionNode)
     {
@@ -260,7 +297,7 @@ abstract class AbstractRegistration implements RegistrationInterface
     /**
      * Appends the 'BodyTemplate' DOMNode.
      *
-     * @param DOMNode $descriptionNode
+     * @param \DOMNode $descriptionNode
      */
     protected function appendTemplateNode($descriptionNode)
     {
@@ -275,38 +312,23 @@ abstract class AbstractRegistration implements RegistrationInterface
     /**
      * Appends the additional DOMNode.
      *
-     * @param DOMNode $descriptionNode
+     * @param \DOMNode $descriptionNode
      */
     protected function appendAdditionalNode($descriptionNode)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the tags.
+     *
+     * @return string
      */
-    public function scrapeResponse($response)
+    private function getTags()
     {
-        $dom = new \DOMDocument();
-        $dom->loadXML($response);
-
-        if ($this->template) {
-            $descriptionTag = $this->getTemplateRegistrationDescriptionTag();
-        } else {
-            $descriptionTag = $this->getRegistrationDescriptionTag();
+        if (is_array($this->tags)) {
+            return implode(',', $this->tags);
         }
 
-        $description = $dom->getElementsByTagName($descriptionTag)->item(0);
-        if (!$description) {
-            throw new \RuntimeException("Could not find '" . $descriptionTag . "' tag in the response: " . $response);
-        }
-
-        $result = array();
-        foreach ($description->childNodes as $child) {
-            if ($child->nodeName != '#text') {
-                $result[$child->nodeName] = $child->nodeValue;
-            }
-        }
-
-        return $result;
+        return $this->tags;
     }
 }

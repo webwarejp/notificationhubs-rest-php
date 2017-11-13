@@ -2,11 +2,6 @@
 
 namespace Openpp\NotificationHubsRest\NotificationHub;
 
-/**
- * 
- * @author shiroko@webware.co.jp
- *
- */
 interface ApiContentInterface
 {
     /**
@@ -20,7 +15,6 @@ interface ApiContentInterface
      * Returns the API request headers.
      *
      * @return array
-     *
      */
     public function getHeaders();
 
@@ -38,7 +32,6 @@ interface ApiContentInterface
      * Returns the API request payload.
      *
      * @return string
-     *
      */
     public function getPayload();
 

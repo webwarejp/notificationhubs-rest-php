@@ -15,8 +15,8 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
         $this->mock = $this->getMockBuilder('Openpp\NotificationHubsRest\NotificationHub\NotificationHub')
-                     ->setConstructorArgs(array(self::CONNECTION_STRING, 'myHub'))
-                     ->setMethods(array('request'))
+                     ->setConstructorArgs([self::CONNECTION_STRING, 'myHub'])
+                     ->setMethods(['request'])
                      ->getMock();
     }
 
@@ -68,6 +68,7 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
                         if (array_diff($headers, $content + $auth + $format)) {
                             return false;
                         }
+
                         return true;
                     }),
                     $this->equalTo('{"data":{"message":"Hello!"}}'),
@@ -95,6 +96,7 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
                     if (array_diff($headers, $content + $auth + $version)) {
                         return false;
                     }
+
                     return true;
                 }),
                 $this->anything(),
@@ -115,17 +117,17 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
 
         $registration = new GcmRegistration();
         $registration->setToken('abcdefghijklmnopqrstuvwxyz')
-                     ->setTags(array('android', 'male', 'japanese'));
+                     ->setTags(['android', 'male', 'japanese']);
 
         $result = $this->mock->createRegistration($registration);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'ETag' => '3',
             'ExpirationTime' => '2014-09-01T15:57:46.778Z',
             'RegistrationId' => '2372532420827572008-85883004107185159-4',
             'Tags' => 'android, male, japanese',
             'GcmRegistrationId' => 'abcdefghijklmnopqrstuvwxyz',
-        ), $result);
+        ], $result);
     }
 
     /**
@@ -169,6 +171,7 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
                     if (array_diff($headers, $content + $auth + $version + $etag)) {
                         return false;
                     }
+
                     return true;
                 }),
                 $this->anything(),
@@ -193,13 +196,13 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
         $registration->setEtag('3');
         $result = $this->mock->updateRegistration($registration);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             'ETag' => '4',
             'ExpirationTime' => '2014-09-01T15:57:46.778Z',
             'RegistrationId' => '2372532420827572008-85883004107185159-4',
             'Tags' => 'android, male, japanese',
             'GcmRegistrationId' => 'abcdefghijklmnopqrstuvwxyz',
-        ), $result);
+        ], $result);
     }
 
     /**
@@ -231,6 +234,7 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
                     if (array_diff($headers, $content + $auth + $version + $etag)) {
                         return false;
                     }
+
                     return true;
                 }),
                 $this->anything(),
@@ -286,6 +290,7 @@ class NotificationHubTest extends \PHPUnit_Framework_TestCase
                     if (array_diff($headers, $content + $auth + $version + $contentLength)) {
                         return false;
                     }
+
                     return true;
                 }),
                 $this->anything(),

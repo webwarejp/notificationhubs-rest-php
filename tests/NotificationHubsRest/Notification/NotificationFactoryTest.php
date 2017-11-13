@@ -7,11 +7,6 @@ use Openpp\NotificationHubsRest\Notification\GcmNotification;
 use Openpp\NotificationHubsRest\Notification\AppleNotification;
 use Openpp\NotificationHubsRest\Notification\TemplateNotification;
 
-/**
- *
- * @author shiroko@webware.co.jp
- *
- */
 class NotificationBuilderTest extends \PHPUnit_Framework_TestCase
 {
     protected $factory;
@@ -24,19 +19,19 @@ class NotificationBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateGcmNotification()
     {
-        $notification = $this->factory->createNotification("gcm", 'Hello!');
+        $notification = $this->factory->createNotification('gcm', 'Hello!');
         $this->assertTrue($notification instanceof GcmNotification);
     }
 
     public function testCreateAppleRegistration()
     {
-        $notification = $this->factory->createNotification("apple", 'Hello!');
+        $notification = $this->factory->createNotification('apple', 'Hello!');
         $this->assertTrue($notification instanceof AppleNotification);
     }
 
     public function testCreateTemplateRegistration()
     {
-        $notification = $this->factory->createNotification("template", array('message' => 'Hello!'));
+        $notification = $this->factory->createNotification('template', ['message' => 'Hello!']);
         $this->assertTrue($notification instanceof TemplateNotification);
     }
 
@@ -45,6 +40,6 @@ class NotificationBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateInvalidNotification()
     {
-        $notification = $this->factory->createNotification("windows", 'Hello!');
+        $this->factory->createNotification('windows', 'Hello!');
     }
 }

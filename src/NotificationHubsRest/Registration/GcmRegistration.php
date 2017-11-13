@@ -2,11 +2,6 @@
 
 namespace Openpp\NotificationHubsRest\Registration;
 
-/**
- * 
- * @author shiroko@webware.co.jp
- *
- */
 class GcmRegistration extends AbstractRegistration
 {
     /**
