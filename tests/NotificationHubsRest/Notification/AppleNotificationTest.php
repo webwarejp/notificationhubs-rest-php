@@ -115,7 +115,7 @@ class AppleNotificationTest extends \PHPUnit_Framework_TestCase
         ], []);
         $payload = $notification->getPayload();
 
-        $expected = <<<JSON
+        $expected = <<<'JSON'
 {"aps" : {
   "alert" : {
     "title" : "Game Request",
@@ -146,7 +146,7 @@ JSON;
         ], []);
         $payload = $notification->getPayload();
 
-        $expected = <<<JSON
+        $expected = <<<'JSON'
 {"aps" : {
   "alert" : {
     "action-loc-key" : "PLAY",
@@ -174,7 +174,7 @@ JSON;
         ]);
         $payload = $notification->getPayload();
 
-        $expected = <<<JSON
+        $expected = <<<'JSON'
 {"aps" : {
   "alert" : {
     "title" : "Game Request",
@@ -203,7 +203,7 @@ JSON;
         ]);
         $payload = $notification->getPayload();
 
-        $expected = <<<JSON
+        $expected = <<<'JSON'
 {"aps" : {
   "alert" : {
     "title" : "Game Request",

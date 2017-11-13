@@ -90,7 +90,7 @@ class GcmNotificationTest extends \PHPUnit_Framework_TestCase
         $notification = new GcmNotification('Hello!');
         $payload = $notification->getPayload();
 
-        $expected = <<<JSON
+        $expected = <<<'JSON'
 {
   "data" : {
     "message" : "Hello!"
@@ -111,7 +111,7 @@ JSON;
             'dry_run' => true, ]);
         $payload = $notification->getPayload();
 
-        $expected = <<<JSON
+        $expected = <<<'JSON'
 {
   "collapse_key" : "demo",
   "delay_while_idle" : true,
@@ -146,7 +146,7 @@ JSON;
         ], []);
         $payload = $notification->getPayload();
 
-        $expected = <<<JSON
+        $expected = <<<'JSON'
 {
   "data" : {
     "title" : "Game Request",
@@ -170,7 +170,7 @@ JSON;
         ]);
         $payload = $notification->getPayload();
 
-        $expected = <<<JSON
+        $expected = <<<'JSON'
 {
   "data" : {
     "title" : "Game Request",
