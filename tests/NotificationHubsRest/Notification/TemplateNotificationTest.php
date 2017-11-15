@@ -65,12 +65,6 @@ class TemplateNotificationTest extends \PHPUnit_Framework_TestCase
                 $notification->buildUri('aaa.servicebus.windows.net/', 'myhub'));
     }
 
-    public function testScrapeResponse()
-    {
-        $notification = new TemplateNotification(['message' => 'Hello!']);
-        $notification->scrapeResponse('');
-    }
-
     public function testGetPayloadWithArray()
     {
         $notification = new TemplateNotification(['message' => 'Hello!', 'name' => 'John']);

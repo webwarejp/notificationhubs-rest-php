@@ -79,12 +79,6 @@ class GcmNotificationTest extends \PHPUnit_Framework_TestCase
                 $notification->buildUri('aaa.servicebus.windows.net/', 'myhub'));
     }
 
-    public function testScrapeResponse()
-    {
-        $notification = new GcmNotification('Hello!');
-        $notification->scrapeResponse('');
-    }
-
     public function testGetPayloadWithNoOptionsAndNoProperies()
     {
         $notification = new GcmNotification('Hello!');
