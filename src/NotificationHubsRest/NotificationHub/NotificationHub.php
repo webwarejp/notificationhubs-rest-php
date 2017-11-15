@@ -3,8 +3,8 @@
 namespace Openpp\NotificationHubsRest\NotificationHub;
 
 use Openpp\NotificationHubsRest\Notification\NotificationInterface;
-use Openpp\NotificationHubsRest\Registration\RegistrationInterface;
 use Openpp\NotificationHubsRest\Registration\GcmRegistration;
+use Openpp\NotificationHubsRest\Registration\RegistrationInterface;
 
 class NotificationHub
 {
@@ -276,7 +276,7 @@ class NotificationHub
     private function parseConnectionString($connectionString)
     {
         $parts = explode(';', $connectionString);
-        if (3 != sizeof($parts)) {
+        if (3 != count($parts)) {
             throw new \RuntimeException('Error parsing connection string: '.$connectionString);
         }
 

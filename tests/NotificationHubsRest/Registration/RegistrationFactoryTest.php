@@ -2,9 +2,9 @@
 
 namespace Openpp\NotificationHubsRest\Registration\Tests;
 
-use Openpp\NotificationHubsRest\Registration\RegistrationFactory;
-use Openpp\NotificationHubsRest\Registration\GcmRegistration;
 use Openpp\NotificationHubsRest\Registration\AppleRegistration;
+use Openpp\NotificationHubsRest\Registration\GcmRegistration;
+use Openpp\NotificationHubsRest\Registration\RegistrationFactory;
 use Openpp\NotificationHubsRest\Registration\WindowsRegistration;
 
 class RegistrationFactoryTest extends \PHPUnit_Framework_TestCase
