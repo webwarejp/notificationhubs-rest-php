@@ -2,12 +2,12 @@
 
 namespace Openpp\NotificationHubsRest\Notification\Tests;
 
-use Openpp\NotificationHubsRest\Notification\NotificationFactory;
-use Openpp\NotificationHubsRest\Notification\GcmNotification;
 use Openpp\NotificationHubsRest\Notification\AppleNotification;
+use Openpp\NotificationHubsRest\Notification\GcmNotification;
+use Openpp\NotificationHubsRest\Notification\NotificationFactory;
 use Openpp\NotificationHubsRest\Notification\TemplateNotification;
 
-class NotificationBuilderTest extends \PHPUnit_Framework_TestCase
+class NotificationFactoryTest extends \PHPUnit_Framework_TestCase
 {
     protected $factory;
 
