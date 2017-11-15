@@ -12,7 +12,7 @@ class WindowsRegistrationTest extends \PHPUnit_Framework_TestCase
         $registration->setToken('http://channel.uri/endpoint');
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -33,7 +33,7 @@ XML;
                      ->setTags('ios');
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -55,7 +55,7 @@ XML;
                      ->setTags(['ios', 'female', 'japanese']);
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -79,7 +79,7 @@ XML;
                      ->setWnsTag('myTag');
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -115,7 +115,7 @@ XML;
                      ->setWnsTag('myTag');
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -153,7 +153,7 @@ XML;
                      ->setWnsTag('myTag');
         $payload = $registration->getPayload();
 
-        $expected = <<<XML
+        $expected = <<<'XML'
 <?xml version="1.0" encoding="utf-8"?>
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
@@ -247,7 +247,7 @@ XML;
         $registration->setToken('http://channel.uri/endpoint')
                      ->setTags(['ios', 'female', 'japanese']);
 
-        $response = <<<RESPONSE
+        $response = <<<'RESPONSE'
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
         <WindowsRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
@@ -285,7 +285,7 @@ RESPONSE;
                      ->setWnsType('wns/tile')
                      ->setWnsTag('myTag');
 
-        $response = <<<RESPONSE
+        $response = <<<'RESPONSE'
 <entry xmlns="http://www.w3.org/2005/Atom">
     <content type="application/xml">
         <WindowsTemplateRegistrationDescription xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">
