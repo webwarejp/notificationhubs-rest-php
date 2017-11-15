@@ -1,6 +1,7 @@
 # Notification Hubs REST wrapper for PHP
 
 [![Build Status](https://travis-ci.org/webwarejp/notificationhubs-rest-php.svg?branch=master)](https://travis-ci.org/webwarejp/notificationhubs-rest-php)
+[![StyleCI](https://styleci.io/repos/32438522/shield?branch=master)](https://styleci.io/repos/32438522)
 [![Build Status](https://scrutinizer-ci.com/g/webwarejp/notificationhubs-rest-php/badges/build.png?b=master)](https://scrutinizer-ci.com/g/webwarejp/notificationhubs-rest-php/)
 [![Code Rating](https://scrutinizer-ci.com/g/webwarejp/notificationhubs-rest-php/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/webwarejp/notificationhubs-rest-php/)
 
