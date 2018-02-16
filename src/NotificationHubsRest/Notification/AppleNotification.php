@@ -11,6 +11,7 @@ class AppleNotification extends AbstractNotification
         'badge',
         'sound',
         'content-available',
+        'mutable-content',
     ];
 
     /**
