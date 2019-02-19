@@ -60,8 +60,10 @@ class AppleNotification extends AbstractNotification
         }
 
         if (is_array($this->alert)) {
-            $alert = array_intersect_key($this->alert, array_fill_keys($this->supportedAlertProperties, 0));
-            $payload += ['alert' => $alert];
+            if (!empty($this->alert)) {
+                $alert = array_intersect_key($this->alert, array_fill_keys($this->supportedAlertProperties, 0));
+                $payload += ['alert' => $alert];
+            }
         } elseif (is_scalar($this->alert)) {
             $payload += ['alert' => $this->alert];
         } else {
